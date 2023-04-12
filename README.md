@@ -8,5 +8,4 @@ Based on bash and Sh, it executes commands (standalone and built-in) read from s
 ## Authors
 
  - [Yaninthé Tiomene](https://github.com/Yantiomene)
- - [Uchenna Oko]()
- 
+ - [Uchenna Oko](https://github.com/UcheCom)
