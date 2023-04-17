@@ -8,7 +8,7 @@
  */
 char *_strdup(const char *str)
 {
-	int len = 0;
+	int len = 0, i;
 	char *tmp;
 
 	if (str == NULL)
@@ -21,7 +21,7 @@ char *_strdup(const char *str)
 
 	if (tmp == NULL)
 		return (NULL);
-	for (int i = 0; i <= len; i++)
+	for (i = 0; i <= len; i++)
 		tmp[i] = str[i];
 	return (tmp);
 }
