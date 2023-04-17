@@ -14,7 +14,7 @@ void exec_cmd(char **args, char **env)
 
 	if (!args)
 	{
-		write(STDERR_FILENO, "YOsh: No such file or directory\n", 32);
+		write(STDERR_FILENO, ": No such file or directory\n", 28);
 		exit(EXIT_FAILURE);
 	}
 
