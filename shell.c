@@ -23,7 +23,7 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 		if (eof != -1) /* End of file*/
 		{
 			args = split_line(line);
-			exec_cmd(args, env);
+			exec_cmd(av, args, env);
 		}
 		else
 		{
