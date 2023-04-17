@@ -4,7 +4,7 @@
  * readline - read line from the stdin
  * @eof: pointer to an integer
  *
- * Return: the line just read                                    
+ * Return: the line just read
  */
 char *readline(int *eof)
 {
