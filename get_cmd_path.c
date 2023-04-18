@@ -30,7 +30,6 @@ char *get_prog_name(char **av, char *cmd)
 char *get_cmd_path(char **av, char *cmd)
 {
 	char *path, *path_cpy, *cmd_path, *path_token, *prog_name = NULL;
-	size_t cmd_len = _strlen(cmd), path_token_len;
 	struct stat statbuf;
 
 	prog_name = get_prog_name(av, cmd);
@@ -40,16 +39,10 @@ char *get_cmd_path(char **av, char *cmd)
 	if (path)
 	{
 		path_cpy = _strdup(path);
-		if (!path_cpy)
-		{
-			perror(prog_name);
-			exit(EXIT_FAILURE);
-		}
 		path_token = strtok(path_cpy, ":");
 		while (path_token)
 		{
-			path_token_len = _strlen(path_token);
-			cmd_path = malloc(cmd_len + path_token_len + 2);
+			cmd_path = malloc(_strlen(cmd) + _strlen(path_token) + 2);
 			if (!cmd_path)
 			{
 				write(STDERR_FILENO, prog_name, _strlen(prog_name));
