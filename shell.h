@@ -9,6 +9,24 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+extern char **environ;
+
+/**
+ * struct builtin - structure to handle builtin command
+ * @name: command name
+ * @func: pointer to the function associated
+ */
+
+typedef struct builtin
+{
+	char *name;
+	void (*func)(char **args __attribute__((unused)));
+} bin_t;
+
+/* Built-in function */
+void bin_exit(char **args __attribute__((unused)));
+void bin_env(char **args __attribute__((unused)));
+
 char *readline(int *eof);
 int _strlen(char *s);
 char *_strdup(const char *str);
