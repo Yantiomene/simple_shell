@@ -8,16 +8,14 @@
  */
 char *_getenv(const char *path)
 {
-	extern char **environ;
-	int i;
-	size_t nam_len = strlen(path);
+	size_t nam_len = _strlen(path), i;
 
 	for (i = 0; environ[i] != NULL; i++)
+	{
+		if (_strncmp(path, environ[i], nam_len) == 0 && environ[i][nam_len] == '=')
 
-		if (strncmp(path, environ[i], nam_len) == 0 && environ[i][nam_len] == '=')
-		{
 			return (environ[i] + nam_len + 1);
-		}
+	}
 
-		return (NULL);
+	return (NULL);
 }
