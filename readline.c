@@ -11,7 +11,7 @@ char *readline(int *eof)
 	char *line = NULL;
 	size_t n = 0;
 
-	*eof = getline(&line, &n, stdin);
+	*eof = _getline(&line, &n, stdin);
 
 	return (line);
 }

@@ -27,6 +27,29 @@ int exec_bin(char **args)
 }
 
 /**
+ * check_cmd_error - check if the path is null or the user have a permission
+ * @cmd_path: the path to the command
+ * @prog_name: program name and cmd name to handle error
+ *
+ * Return: 1 if there is and error and o otherwise
+ */
+int check_cmd_error(char *cmd_path, char *prog_name)
+{
+	if (!cmd_path)
+	{
+		write(STDERR_FILENO, prog_name, _strlen(prog_name));
+		write(STDERR_FILENO, ": No such file or directory\n", 29);
+		return (1);
+	}
+	if (access(cmd_path, X_OK) == -1)
+	{
+		perror(prog_name);
+		return (1);
+	}
+	return (0);
+}
+
+/**
  * exec_cmd - execute a command
  * @av: argument vector of the main program
  * @args: argument vector
@@ -38,33 +61,33 @@ void exec_cmd(char **av, char **args, char **env)
 {
 	pid_t pid;
 	int wstatus;
-	char *prog_name = NULL, *cmd_path = get_cmd_path(av, args[0]);
+	char *prog_name = get_prog_name(av, args[0]);
+	char *cmd_path = get_cmd_path(av, args[0]);
 
 	if (exec_bin(args) == 0)
 		return;
-	prog_name = _strdup(av[0]);
-	prog_name = strcat(prog_name, ": ");
-	prog_name = strcat(prog_name, args[0]);
-	if (!cmd_path)
+	if (check_cmd_error(cmd_path, prog_name) == 1)
 	{
-		write(STDERR_FILENO, prog_name, _strlen(prog_name));
-		write(STDERR_FILENO, ": No such file or directory\n", 29);
-		free(prog_name);
 		free(cmd_path);
+		free(prog_name);
 		return;
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		perror(prog_name);
-		exit(EXIT_FAILURE);
+		free(cmd_path);
+		free(prog_name);
+		return;
 	}
 	else if (pid == 0)
 	{
 		if (execve(cmd_path, args, env) == -1)
 		{
 			perror(prog_name);
-			exit(EXIT_FAILURE);
+			free(cmd_path);
+			free(prog_name);
+			return;
 		}
 	}
 	else
