@@ -37,6 +37,7 @@ int _strncmp(const char *s1, const char *s2, size_t n);
 char *_strcpy(char *des, char *src);
 int _strlen(char *s);
 char *_strdup(const char *str);
+char *_strcat(char *s1, char *s2);
 
 ssize_t _getline(char **line, size_t *n, FILE *stream);
 void save_line(char **line, size_t *n, char *buf, size_t input);
@@ -47,7 +48,7 @@ char *get_cmd_path(char **av, char *cmd);
 char *get_prog_name(char **av, char *cmd);
 void exec_cmd(char **av, char **args, char **env);
 int check_cmd_error(char *cmd_path, char *prog_name);
-
-
+int exec_bin(char **args);
+char *_getenv(char *path);
 
 #endif
