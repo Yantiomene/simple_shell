@@ -14,8 +14,8 @@ char *get_prog_name(char **av, char *cmd)
 	char *prog_name = NULL;
 
 	prog_name = _strdup(av[0]);
-	prog_name = strcat(prog_name, ": ");
-	prog_name = strcat(prog_name, cmd);
+	prog_name = _strcat(prog_name, ": ");
+	prog_name = _strcat(prog_name, cmd);
 	return (prog_name);
 }
 
@@ -35,11 +35,11 @@ char *get_cmd_path(char **av, char *cmd)
 	prog_name = get_prog_name(av, cmd);
 	if (stat(cmd, &statbuf) == 0)
 		return (cmd);
-	path = getenv("PATH");
+	path = _getenv("PATH");
 	if (path)
 	{
 		path_cpy = _strdup(path);
-		path_token = strtok(path_cpy, ":");
+		path_token = _strtok(path_cpy, ":");
 		while (path_token)
 		{
 			cmd_path = malloc(_strlen(cmd) + _strlen(path_token) + 2);
@@ -49,15 +49,15 @@ char *get_cmd_path(char **av, char *cmd)
 				write(STDERR_FILENO, " : Allocation error\n", 20);
 				exit(EXIT_FAILURE);
 			}
-			_strcpy(cmd_path, path_token), strcat(cmd_path, "/");
-			strcat(cmd_path, cmd), strcat(cmd_path, "\0");
+			_strcpy(cmd_path, path_token), _strcat(cmd_path, "/");
+			_strcat(cmd_path, cmd), _strcat(cmd_path, "\0");
 			if (stat(cmd_path, &statbuf) == 0)
 			{
 				free(path_cpy), free(prog_name);
 				return (cmd_path);
 			}
 			else
-				free(cmd_path), path_token = strtok(NULL, ":");
+				free(cmd_path), path_token = _strtok(NULL, ":");
 		}
 		free(path_cpy), free(prog_name);
 		return (NULL);

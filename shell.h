@@ -38,6 +38,7 @@ char *_strcpy(char *des, char *src);
 int _strlen(char *s);
 char *_strdup(const char *str);
 char *_strcat(char *s1, char *s2);
+char *_strtok(char *str, char *sep);
 
 ssize_t _getline(char **line, size_t *n, FILE *stream);
 void save_line(char **line, size_t *n, char *buf, size_t input);

@@ -14,12 +14,12 @@ char **split_line(char *line)
 	int num_token = 0, i;
 
 	line_cpy = _strdup(line);
-	token = strtok(line_cpy, sep);
+	token = _strtok(line_cpy, sep);
 
 	while (token)
 	{
 		num_token++;
-		token = strtok(NULL, sep);
+		token = _strtok(NULL, sep);
 	}
 
 	args = malloc(sizeof(char *) * (num_token +1));
@@ -29,11 +29,11 @@ char **split_line(char *line)
 		return (NULL);
 	}
 
-	token = strtok(line, sep);
+	token = _strtok(line, sep);
 	for (i = 0; i < num_token; i++)
 	{
 		args[i] = token;
-		token = strtok(NULL, sep);
+		token = _strtok(NULL, sep);
 	}
 	args[i] = NULL;
 	free(line_cpy);
