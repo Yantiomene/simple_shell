@@ -2,12 +2,12 @@
 
 /**
  * exec_bin -  execute a built-in command
- * @args: argument vector
+ * @data: pointer to shell data
  *
  * Return: 0 (Sucess) 1 (Failed)
  */
 
-int exec_bin(char **args)
+int exec_bin(data_t *data)
 {
 	bin_t builtins[] = {
 		{"exit", &bin_exit},
@@ -17,9 +17,9 @@ int exec_bin(char **args)
 
 	for (i = 0; i < num_bin; i++)
 	{
-		if (_strncmp(args[0], builtins[i].name, _strlen(args[0])) == 0)
+		if (_strncmp(data->args[0], builtins[i].name, _strlen(data->args[0])) == 0)
 		{
-			builtins[i].func(args);
+			builtins[i].func(data);
 			return (0);
 		}
 	}
@@ -51,20 +51,18 @@ int check_cmd_error(char *cmd_path, char *prog_name)
 
 /**
  * exec_cmd - execute a command
- * @av: argument vector of the main program
- * @args: argument vector
- * @env: array of envirronnement variable
+ * @data: pointer to shell data
  *
  */
 
-void exec_cmd(char **av, char **args, char **env)
+void exec_cmd(data_t *data)
 {
 	pid_t pid;
 	int wstatus;
-	char *prog_name = get_prog_name(av, args[0]);
-	char *cmd_path = get_cmd_path(av, args[0]);
+	char *prog_name = get_prog_name(data->av, data->args[0]);
+	char *cmd_path = get_cmd_path(data->av, data->args[0]);
 
-	if (exec_bin(args) == 0)
+	if (exec_bin(data) == 0)
 		return;
 	if (check_cmd_error(cmd_path, prog_name) == 1)
 	{
@@ -82,7 +80,7 @@ void exec_cmd(char **av, char **args, char **env)
 	}
 	else if (pid == 0)
 	{
-		if (execve(cmd_path, args, env) == -1)
+		if (execve(cmd_path, data->args, data->env) == -1)
 		{
 			perror(prog_name);
 			free(cmd_path);
@@ -95,6 +93,7 @@ void exec_cmd(char **av, char **args, char **env)
 		do {
 			waitpid(pid, &wstatus, WUNTRACED);
 		} while (!WIFEXITED(wstatus) && !WIFSIGNALED(wstatus));
+		data->status = wstatus;
 	}
 	free(prog_name);
 	free(cmd_path);

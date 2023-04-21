@@ -12,18 +12,20 @@
 int main(int ac __attribute__((unused)), char **av, char **env)
 {
 	char *line = NULL, *prompt = "(YOsh)$ ";
-	char **args;
+	data_t data;
 	int state = 1, eof;
 
-	(void)av;
+	data.av = av;
+	data.env = env;
+	data.status = 0;
 	while (state)
 	{
 		write(STDIN_FILENO, prompt, 8);
 		line = readline(&eof);
 		if (eof != -1) /* End of file*/
 		{
-			args = split_line(line);
-			exec_cmd(av, args, env);
+			data.args = split_line(line);
+			exec_cmd(&data);
 		}
 		else
 		{
@@ -31,6 +33,6 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 		}
 	}
 	free(line);
-	free(args);
+	free(data.args);
 	return (0);
 }
