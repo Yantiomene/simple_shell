@@ -12,6 +12,8 @@ int exec_bin(data_t *data)
 	bin_t builtins[] = {
 		{"exit", &bin_exit},
 		{"env", &bin_env},
+		{"setenv", &bin_setenv},
+		{"unsetenv", &bin_unsetenv},
 	};
 	unsigned int i, num_bin = sizeof(builtins) / sizeof(bin_t);
 

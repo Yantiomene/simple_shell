@@ -15,6 +15,7 @@ char *get_prog_name(char **av, char *cmd)
 
 	prog_name = _strdup(av[0]);
 	prog_name = _strcat(prog_name, ": ");
+	prog_name = _strcat(prog_name, "1: ");
 	prog_name = _strcat(prog_name, cmd);
 	return (prog_name);
 }

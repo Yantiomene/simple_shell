@@ -43,10 +43,13 @@ typedef struct builtin
 /* Built-in function */
 void bin_exit(data_t *data);
 void bin_env(data_t *data);
+void bin_setenv(data_t *data);
+void bin_unsetenv(data_t *data);
 
-/* memroy function */
+/* memory function */
 void _memcpy(void *new_ptr, const void *ptr, size_t len);
 void *_realloc(void *ptr, size_t len, size_t new_len);
+char **_reallocd(char **p, size_t len, size_t n_len);
 
 /* string functions */
 int _strncmp(const char *s1, const char *s2, size_t n);
@@ -57,6 +60,10 @@ char *_strcat(char *s1, char *s2);
 char *_strtok(char *str, char *sep);
 int _isdigit(char *s);
 int _atoi(char *s);
+
+/* data function */
+void set_data(data_t *data, char **av, char **env);
+void free_data(data_t *data);
 
 ssize_t _getline(char **line, size_t *n, FILE *stream);
 void save_line(char **line, size_t *n, char *buf, size_t input);
@@ -69,5 +76,7 @@ void exec_cmd(data_t *data);
 int check_cmd_error(char *cmd_path, char *prog_name);
 int exec_bin(data_t *data);
 char *_getenv(char *path);
+char *create_var(char *var, char *val);
+void print_error(char *msg, data_t *data);
 
 #endif

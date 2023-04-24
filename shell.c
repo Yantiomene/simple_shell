@@ -11,13 +11,11 @@
 
 int main(int ac __attribute__((unused)), char **av, char **env)
 {
-	char *line = NULL, *prompt = "(YOsh)$ ";
+	char *line = NULL, *prompt = "(YAsh)$ ";
 	data_t data;
 	int state = 1, eof;
 
-	data.av = av;
-	data.env = env;
-	data.status = 0;
+	set_data(&data, av, env);
 	while (state)
 	{
 		write(STDIN_FILENO, prompt, 8);
@@ -33,6 +31,6 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 		}
 	}
 	free(line);
-	free(data.args);
+	free_data(&data);
 	return (0);
 }
