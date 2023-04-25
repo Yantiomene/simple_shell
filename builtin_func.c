@@ -110,3 +110,33 @@ void bin_unsetenv(data_t *data)
 	free(data->env);
 	data->env = new_env;
 }
+
+/**
+ * bin_cd - executes the cd command
+ * @data: pointer to data structure
+ *
+ */
+void bin_cd(data_t *data)
+{
+	char *dir = data->args[1];
+	int is_h, is_h1, is_h2;
+
+	if (dir)
+	{
+		is_h = _strncmp("$HOME", dir, _strlen(dir));
+		is_h1 = _strncmp("~", dir, _strlen(dir));
+		is_h2 = _strncmp("--", dir, _strlen(dir));
+	}
+
+	if (!dir || !is_h || !is_h1 || !is_h2)
+	{
+		cd_home(data);
+		return;
+	}
+	if (_strncmp("-", dir, _strlen(dir)) == 0)
+	{
+		cd_prev(data);
+		return;
+	}
+	cd_dir(data);
+}

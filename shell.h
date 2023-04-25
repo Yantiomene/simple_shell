@@ -48,6 +48,7 @@ void bin_exit(data_t *data);
 void bin_env(data_t *data);
 void bin_setenv(data_t *data);
 void bin_unsetenv(data_t *data);
+void bin_cd(data_t *data);
 
 /* memory function */
 void _memcpy(void *new_ptr, const void *ptr, size_t len);
@@ -68,6 +69,11 @@ char *_itoa(int n);
 /* data function */
 void set_data(data_t *data, char **av, char **env);
 void free_data(data_t *data);
+
+/* cd functions */
+void cd_home(data_t *data);
+void cd_dir(data_t *data);
+void cd_prev(data_t *data);
 
 ssize_t _getline(char **line, size_t *n, FILE *stream);
 void save_line(char **line, size_t *n, char *buf, size_t input);

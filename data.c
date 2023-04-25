@@ -14,7 +14,7 @@ void set_data(data_t *data, char **av, char **env)
 
 	data->av = av;
 	data->status = 0;
-	data->count = 0;
+	data->count = 1;
 	data->args = NULL;
 
 	for (len = 0; env[len]; len++)

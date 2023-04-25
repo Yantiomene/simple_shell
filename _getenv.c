@@ -10,11 +10,13 @@
 char *_getenv(char *path, data_t *data)
 {
 	size_t nam_len = _strlen(path), i;
+	char *var;
 
 	for (i = 0; data->env[i]; i++)
 	{
-	if (_strncmp(path, data->env[i], nam_len) == 0 && data->env[i][nam_len] == '=')
-		return (data->env[i] + nam_len + 1);
+		var = data->env[i];
+		if (_strncmp(path, var, nam_len) == 0 && var[nam_len] == '=')
+			return (var + nam_len + 1);
 	}
 
 	return (NULL);
