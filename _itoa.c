@@ -55,5 +55,5 @@ char *_itoa(int n)
 		m /= 10;
 		len--;
 	} while (m > 0);
-	return (res);
+	return (re);
 }
