@@ -16,7 +16,7 @@ void bin_exit(data_t *data)
 		is_digit = _isdigit(data->args[1]);
 		if (!is_digit)
 		{
-			print_error(": Incorrect status value: ", data);
+			print_error(": Illegal number: ", data);
 			write(STDERR_FILENO, data->args[1], _strlen(data->args[1]));
 			write(STDERR_FILENO, "\n", 1);
 			return;
@@ -50,7 +50,6 @@ void bin_env(data_t *data)
  */
 void bin_setenv(data_t *data)
 {
-	unsigned int i;
 	char *var, *val;
 
 	if (!data->args[1] || !data->args[2])
@@ -60,25 +59,7 @@ void bin_setenv(data_t *data)
 	}
 	var = data->args[1];
 	val = data->args[2];
-	for (i = 0; data->env[i]; i++)
-	{
-		if (_strncmp(data->env[i], var, _strlen(var)) == 0)
-		{
-			free(data->env[i]);
-			data->env[i] = create_var(var, val);
-			if (!data->env[i])
-				print_error(": Allocation error\n", data);
-			return;
-		}
-	}
-	data->env = _reallocd(data->env, i, sizeof(char *) * (i + 2));
-	data->env[i] = create_var(var, val);
-	if (!data->env[i])
-	{
-		print_error(": Allocation error\n", data);
-		return;
-	}
-	data->env[i + 1] = NULL;
+	_setenv(var, val, data);
 }
 
 /**

@@ -40,7 +40,7 @@ int check_cmd_error(char *cmd_path, char *prog_name)
 	if (!cmd_path)
 	{
 		write(STDERR_FILENO, prog_name, _strlen(prog_name));
-		write(STDERR_FILENO, ": No such file or directory\n", 29);
+		write(STDERR_FILENO, ": not found\n", 12);
 		return (1);
 	}
 	if (access(cmd_path, X_OK) == -1)
@@ -61,8 +61,8 @@ void exec_cmd(data_t *data)
 {
 	pid_t pid;
 	int wstatus;
-	char *prog_name = get_prog_name(data->av, data->args[0]);
-	char *cmd_path = get_cmd_path(data->av, data->args[0]);
+	char *prog_name = get_prog_name(data);
+	char *cmd_path = get_cmd_path(data);
 
 	if (exec_bin(data) == 0)
 		return;

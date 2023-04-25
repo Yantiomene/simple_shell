@@ -22,7 +22,7 @@ char **split_line(char *line)
 		token = _strtok(NULL, sep);
 	}
 
-	args = malloc(sizeof(char *) * (num_token +1));
+	args = malloc(sizeof(char *) * (num_token + 1));
 	if (args == NULL)
 	{
 		write(STDERR_FILENO, ": Allocation error\n", 19);

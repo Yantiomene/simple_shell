@@ -33,9 +33,42 @@ char *create_var(char *var, char *val)
  */
 void print_error(char *msg, data_t *data)
 {
-	char *prog_name = get_prog_name(data->av, data->args[0]);
+	char *prog_name = get_prog_name(data);
 
 	write(STDERR_FILENO, prog_name, _strlen(prog_name));
 	write(STDERR_FILENO, msg, _strlen(msg));
 	free(prog_name);
+}
+
+
+/**
+ * _setenv - set the env variable
+ * @var: env variable name
+ * @val: env variable value
+ * @data: pointer to the data structure
+ *
+ */
+void _setenv(char *var, char *val, data_t *data)
+{
+	unsigned int i;
+
+	for (i = 0; data->env[i]; i++)
+	{
+		if (_strncmp(data->env[i], var, _strlen(var)) == 0)
+		{
+			free(data->env[i]);
+			data->env[i] = create_var(var, val);
+			if (!data->env[i])
+				print_error(": Allocation error\n", data);
+			return;
+		}
+	}
+	data->env = _reallocd(data->env, i, sizeof(char *) * (i + 2));
+	data->env[i] = create_var(var, val);
+	if (!data->env[i])
+	{
+		print_error(": Allocation error\n", data);
+		return;
+	}
+	data->env[i + 1] = NULL;
 }

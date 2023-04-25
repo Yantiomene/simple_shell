@@ -24,6 +24,7 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 		{
 			data.args = split_line(line);
 			exec_cmd(&data);
+			data.count += 1;
 		}
 		else
 		{

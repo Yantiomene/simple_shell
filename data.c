@@ -14,6 +14,7 @@ void set_data(data_t *data, char **av, char **env)
 
 	data->av = av;
 	data->status = 0;
+	data->count = 0;
 	data->args = NULL;
 
 	for (len = 0; env[len]; len++)
@@ -22,7 +23,7 @@ void set_data(data_t *data, char **av, char **env)
 	if (!data->env)
 	{
 		write(STDERR_FILENO, av[0], _strlen(av[0]));
-		write(STDERR_FILENO, ": Allocation error\n", 18);
+		write(STDERR_FILENO, ": Allocation error\n", 19);
 		return;
 	}
 	for (i = 0; i < len; i++)

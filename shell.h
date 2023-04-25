@@ -20,6 +20,7 @@ extern char **environ;
  * @args: argument vector
  * @env: environnement list
  * @status: exit status of a command
+ * @count: the counter of command
  */
 typedef struct sh_data
 {
@@ -27,7 +28,9 @@ typedef struct sh_data
 	char **args;
 	char **env;
 	int status;
+	int count;
 } data_t;
+
 /**
  * struct builtin - structure to handle builtin command
  * @name: command name
@@ -60,6 +63,7 @@ char *_strcat(char *s1, char *s2);
 char *_strtok(char *str, char *sep);
 int _isdigit(char *s);
 int _atoi(char *s);
+char *_itoa(int n);
 
 /* data function */
 void set_data(data_t *data, char **av, char **env);
@@ -70,13 +74,15 @@ void save_line(char **line, size_t *n, char *buf, size_t input);
 
 char *readline(int *eof);
 char **split_line(char *line);
-char *get_cmd_path(char **av, char *cmd);
-char *get_prog_name(char **av, char *cmd);
+char *get_cmd_path(data_t *data);
+char *get_prog_name(data_t *data);
 void exec_cmd(data_t *data);
 int check_cmd_error(char *cmd_path, char *prog_name);
 int exec_bin(data_t *data);
-char *_getenv(char *path);
+char *_getenv(char *path, data_t *data);
 char *create_var(char *var, char *val);
 void print_error(char *msg, data_t *data);
+void _setenv(char *var, char *val, data_t *data);
+int num_digit(int n);
 
 #endif

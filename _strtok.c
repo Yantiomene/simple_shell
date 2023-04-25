@@ -31,6 +31,8 @@ char *_strtok(char *str, char *sep)
 			{
 				if (ind == str)
 				{
+					if (!*(ind + 1))
+						return (NULL);
 					ind++;
 					str++;
 				}
