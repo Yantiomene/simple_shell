@@ -43,7 +43,6 @@ void free_data(data_t *data)
 	for (i = 0; data->env[i]; i++)
 		free(data->env[i]);
 	free(data->env);
-	free(data->args);
 }
 
 /**

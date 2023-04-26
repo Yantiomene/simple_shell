@@ -30,8 +30,10 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 		{
 			state = 0;
 		}
+
 	}
 	free(line);
+	free(data.args);
 	free_data(&data);
 	return (0);
 }

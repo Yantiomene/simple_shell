@@ -10,13 +10,15 @@
 
 char *get_prog_name(data_t *data)
 {
-	char *prog_name = NULL;
+	char *prog_name, *count = _itoa(data->count);
 
-	prog_name = _strdup(data->av[0]);
-	prog_name = _strcat(prog_name, ": ");
-	prog_name = _strcat(prog_name, _itoa(data->count));
-	prog_name = _strcat(prog_name, ": ");
-	prog_name = _strcat(prog_name, data->args[0]);
+	prog_name = malloc(BUFFSIZE);
+	_strcpy(prog_name, data->av[0]);
+	_strcat(prog_name, ": ");
+	_strcat(prog_name, count);
+	_strcat(prog_name, ": ");
+	_strcat(prog_name, data->args[0]);
+	free(count);
 	return (prog_name);
 }
 
@@ -29,13 +31,13 @@ char *get_prog_name(data_t *data)
 
 char *get_cmd_path(data_t *data)
 {
-	char *path, *path_cpy, *cmd_path, *path_token, *prog_name = NULL;
+	char *path, *path_cpy, *cmd_path, *path_token, *prog_name;
 	struct stat statbuf;
 	int len;
 
-	prog_name = get_prog_name(data);
 	if (stat(data->args[0], &statbuf) == 0)
 		return (data->args[0]);
+	prog_name = get_prog_name(data);
 	path = _getenv("PATH", data);
 	if (path)
 	{
@@ -49,7 +51,7 @@ char *get_cmd_path(data_t *data)
 			{
 				write(STDERR_FILENO, prog_name, _strlen(prog_name));
 				write(STDERR_FILENO, ": Allocation error\n", 19);
-				free(prog_name);
+				free(path_cpy), free(prog_name);
 				return (NULL);
 			}
 			_strcpy(cmd_path, path_token), _strcat(cmd_path, "/");
@@ -62,7 +64,7 @@ char *get_cmd_path(data_t *data)
 			else
 				free(cmd_path), path_token = _strtok(NULL, ":");
 		}
-		free(path_cpy), free(prog_name);
+		free(path_cpy);
 		return (NULL);
 	}
 	free(prog_name);

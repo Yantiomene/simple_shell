@@ -62,11 +62,11 @@ void exec_cmd(data_t *data)
 {
 	pid_t pid;
 	int wstatus;
-	char *prog_name = get_prog_name(data);
-	char *cmd_path = get_cmd_path(data);
+	char *prog_name = NULL, *cmd_path;
 
 	if (exec_bin(data) == 0)
 		return;
+	cmd_path = get_cmd_path(data), prog_name = get_prog_name(data);
 	if (check_cmd_error(cmd_path, prog_name) == 1)
 	{
 		free(cmd_path);

@@ -26,6 +26,7 @@ char **split_line(char *line)
 	if (args == NULL)
 	{
 		write(STDERR_FILENO, ": Allocation error\n", 19);
+		free(line_cpy);
 		return (NULL);
 	}
 

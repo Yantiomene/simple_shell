@@ -10,6 +10,7 @@
 #include <sys/stat.h>
 #include <limits.h>
 #include <ctype.h>
+#include <malloc.h>
 
 extern char **environ;
 #define BUFFSIZE 1024
