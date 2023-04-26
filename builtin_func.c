@@ -94,8 +94,7 @@ void bin_unsetenv(data_t *data)
 	}
 	if (pos == -1)
 	{
-		print_error(": ", data);
-		write(STDERR_FILENO, var, _strlen(var));
+		print_error(": ", data), write(STDERR_FILENO, var, _strlen(var));
 		write(STDERR_FILENO, ": not an environnement variable\n", 32);
 		data->status = -1;
 		return;
@@ -110,15 +109,12 @@ void bin_unsetenv(data_t *data)
 	{
 		if (len != pos)
 		{
-			new_env[i] = data->env[len];
-			i++;
+			new_env[i] = data->env[len], i++;
 		}
 	}
 	new_env[i] = NULL;
-	free(data->env[pos]);
-	free(data->env);
-	data->env = new_env;
-	data->status = 0;
+	free(data->env[pos]), free(data->env);
+	data->env = new_env, data->status = 0;
 }
 
 /**
