@@ -71,7 +71,7 @@ int _atoi(char *s);
 char *_itoa(int n);
 
 /* data function */
-void set_data(data_t *data, char **av, char **env);
+void set_data(data_t *data, char **av);
 void free_data(data_t *data);
 
 /* cd functions */

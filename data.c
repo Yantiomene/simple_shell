@@ -4,11 +4,10 @@
  * set_data - set the data structure
  * @data: pointer tot the data structure
  * @av: program argument vector
- * @env: list of envirnnement variable
  *
  */
 
-void set_data(data_t *data, char **av, char **env)
+void set_data(data_t *data, char **av)
 {
 	unsigned int i, len;
 
@@ -18,7 +17,7 @@ void set_data(data_t *data, char **av, char **env)
 	data->args = NULL;
 	data->line = NULL;
 
-	for (len = 0; env[len]; len++)
+	for (len = 0; environ[len]; len++)
 		;
 	data->env = malloc(sizeof(char *) * (len + 1));
 	if (!data->env)
@@ -28,7 +27,7 @@ void set_data(data_t *data, char **av, char **env)
 		return;
 	}
 	for (i = 0; i < len; i++)
-		data->env[i] = _strdup(env[i]);
+		data->env[i] = _strdup(environ[i]);
 	data->env[i] = NULL;
 }
 

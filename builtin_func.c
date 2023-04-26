@@ -19,6 +19,7 @@ void bin_exit(data_t *data)
 			print_error(": Illegal number: ", data);
 			write(STDERR_FILENO, data->args[1], _strlen(data->args[1]));
 			write(STDERR_FILENO, "\n", 1);
+			data->status = 2;
 			return;
 		}
 		data->status = (e_status % 256);
@@ -44,6 +45,7 @@ void bin_env(data_t *data)
 		write(STDOUT_FILENO, "\n", 1);
 		i++;
 	}
+	data->status = 0;
 }
 
 /**
@@ -58,11 +60,13 @@ void bin_setenv(data_t *data)
 	if (!data->args[1] || !data->args[2])
 	{
 		print_error(": Usage: setenv VARIABLE VALUE\n", data);
+		data->status = -1;
 		return;
 	}
 	var = data->args[1];
 	val = data->args[2];
 	_setenv(var, val, data);
+	data->status = 0;
 }
 
 /**
@@ -80,6 +84,7 @@ void bin_unsetenv(data_t *data)
 	if (!var)
 	{
 		print_error(": Usage: unsetenv VARIABLE\n", data);
+		data->status = -1;
 		return;
 	}
 	for (len = 0; data->env[len]; len++)
@@ -92,6 +97,7 @@ void bin_unsetenv(data_t *data)
 		print_error(": ", data);
 		write(STDERR_FILENO, var, _strlen(var));
 		write(STDERR_FILENO, ": not an environnement variable\n", 32);
+		data->status = -1;
 		return;
 	}
 	new_env = malloc(sizeof(char *) * len);
@@ -112,6 +118,7 @@ void bin_unsetenv(data_t *data)
 	free(data->env[pos]);
 	free(data->env);
 	data->env = new_env;
+	data->status = 0;
 }
 
 /**

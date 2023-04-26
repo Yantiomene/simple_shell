@@ -28,11 +28,13 @@ void cd_home(data_t *data)
 	{
 		perror(prog_name);
 		free(prog_name);
+		data->status = 2;
 		return;
 	}
 	_setenv("OLDPWD", pwd_val, data);
 	_setenv("PWD", home, data);
 	free(prog_name);
+	data->status = 0;
 }
 
 /**
@@ -57,11 +59,13 @@ void cd_dir(data_t *data)
 	{
 		perror(prog_name);
 		free(prog_name);
+		data->status = 2;
 		return;
 	}
 	_setenv("OLDPWD", pwd_val, data);
 	_setenv("PWD", dir, data);
 	free(prog_name);
+	data->status = 0;
 }
 
 /**
@@ -93,4 +97,5 @@ void cd_prev(data_t *data)
 	write(STDOUT_FILENO, pwd_val, _strlen(pwd_val));
 	write(STDOUT_FILENO, "\n", 1);
 	free(prog_name);
+	data->status = 0;
 }

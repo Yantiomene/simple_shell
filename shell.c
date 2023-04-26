@@ -4,19 +4,18 @@
  * main - Checks the programs
  * @ac: argument count
  * @av: argument vector
- * @env: array of environnement var
  *
  * Return: 0 (Success)
  */
 
-int main(int ac __attribute__((unused)), char **av, char **env)
+int main(int ac __attribute__((unused)), char **av)
 {
 	char *prompt = "(YAsh)$ ";
 	data_t data;
 	int state = 1, eof;
 
 	signal(SIGINT, get_sigint);
-	set_data(&data, av, env);
+	set_data(&data, av);
 	while (state)
 	{
 		write(STDIN_FILENO, prompt, 8);
