@@ -23,6 +23,7 @@ void bin_exit(data_t *data)
 		}
 		data->status = (e_status % 256);
 	}
+	free(data->line);
 	free(data->args);
 	free_data(data);
 	exit(data->status);

@@ -11,6 +11,7 @@
 #include <limits.h>
 #include <ctype.h>
 #include <malloc.h>
+#include <signal.h>
 
 extern char **environ;
 #define BUFFSIZE 1024
@@ -20,6 +21,7 @@ extern char **environ;
  * @av: program argument vector
  * @args: argument vector
  * @env: environnement list
+ * @line: input line
  * @status: exit status of a command
  * @count: the counter of command
  */
@@ -28,6 +30,7 @@ typedef struct sh_data
 	char **av;
 	char **args;
 	char **env;
+	char *line;
 	int status;
 	int count;
 } data_t;
@@ -91,5 +94,6 @@ char *create_var(char *var, char *val);
 void print_error(char *msg, data_t *data);
 void _setenv(char *var, char *val, data_t *data);
 int num_digit(int n);
+void get_sigint(int sig);
 
 #endif

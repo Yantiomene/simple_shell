@@ -31,13 +31,12 @@ char *get_prog_name(data_t *data)
 
 char *get_cmd_path(data_t *data)
 {
-	char *path, *path_cpy, *cmd_path, *path_token, *prog_name;
+	char *path, *path_cpy, *cmd_path, *path_token;
 	struct stat statbuf;
 	int len;
 
 	if (stat(data->args[0], &statbuf) == 0)
 		return (data->args[0]);
-	prog_name = get_prog_name(data);
 	path = _getenv("PATH", data);
 	if (path)
 	{
@@ -49,16 +48,15 @@ char *get_cmd_path(data_t *data)
 			cmd_path = malloc(len);
 			if (!cmd_path)
 			{
-				write(STDERR_FILENO, prog_name, _strlen(prog_name));
-				write(STDERR_FILENO, ": Allocation error\n", 19);
-				free(path_cpy), free(prog_name);
+				print_error(":Allocation error\n", data);
+				free(path_cpy);
 				return (NULL);
 			}
 			_strcpy(cmd_path, path_token), _strcat(cmd_path, "/");
 			_strcat(cmd_path, data->args[0]), _strcat(cmd_path, "\0");
 			if (stat(cmd_path, &statbuf) == 0)
 			{
-				free(path_cpy), free(prog_name);
+				free(path_cpy);
 				return (cmd_path);
 			}
 			else
@@ -67,6 +65,5 @@ char *get_cmd_path(data_t *data)
 		free(path_cpy);
 		return (NULL);
 	}
-	free(prog_name);
 	return (NULL);
 }

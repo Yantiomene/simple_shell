@@ -11,20 +11,23 @@
 
 int main(int ac __attribute__((unused)), char **av, char **env)
 {
-	char *line = NULL, *prompt = "(YAsh)$ ";
+	char *prompt = "(YAsh)$ ";
 	data_t data;
 	int state = 1, eof;
 
+	signal(SIGINT, get_sigint);
 	set_data(&data, av, env);
 	while (state)
 	{
 		write(STDIN_FILENO, prompt, 8);
-		line = readline(&eof);
+		data.line = readline(&eof);
 		if (eof != -1) /* End of file*/
 		{
-			data.args = split_line(line);
+			data.args = split_line(data.line);
 			exec_cmd(&data);
 			data.count += 1;
+			if (data.args)
+				free(data.args);
 		}
 		else
 		{
@@ -32,8 +35,7 @@ int main(int ac __attribute__((unused)), char **av, char **env)
 		}
 
 	}
-	free(line);
-	free(data.args);
+	free(data.line);
 	free_data(&data);
 	return (0);
 }
