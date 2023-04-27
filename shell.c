@@ -33,7 +33,8 @@ int main(int ac __attribute__((unused)), char **av)
 			state = 0;
 		}
 	}
-	free(data.line);
+	if (data.line)
+		free(data.line);
 	free_data(&data);
 	return (data.status);
 }
