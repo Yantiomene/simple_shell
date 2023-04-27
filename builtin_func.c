@@ -46,6 +46,7 @@ void bin_env(data_t *data)
 		i++;
 	}
 	data->status = 0;
+	free(data->line);
 }
 
 /**
@@ -67,6 +68,7 @@ void bin_setenv(data_t *data)
 	val = data->args[2];
 	_setenv(var, val, data);
 	data->status = 0;
+	free(data->line);
 }
 
 /**
@@ -114,7 +116,7 @@ void bin_unsetenv(data_t *data)
 	}
 	new_env[i] = NULL;
 	free(data->env[pos]), free(data->env);
-	data->env = new_env, data->status = 0;
+	data->env = new_env, data->status = 0, free(data->line);
 }
 
 /**
@@ -125,24 +127,27 @@ void bin_unsetenv(data_t *data)
 void bin_cd(data_t *data)
 {
 	char *dir = data->args[1];
-	int is_h, is_h1, is_h2;
+	int is_h, is_h1;
 
 	if (dir)
 	{
 		is_h = _strncmp("$HOME", dir, _strlen(dir));
 		is_h1 = _strncmp("~", dir, _strlen(dir));
-		is_h2 = _strncmp("--", dir, _strlen(dir));
+
 	}
 
-	if (!dir || !is_h || !is_h1 || !is_h2)
+	if (!dir || !is_h || !is_h1)
 	{
 		cd_home(data);
+		free(data->line);
 		return;
 	}
 	if (_strncmp("-", dir, _strlen(dir)) == 0)
 	{
 		cd_prev(data);
+		free(data->line);
 		return;
 	}
 	cd_dir(data);
+	free(data->line);
 }

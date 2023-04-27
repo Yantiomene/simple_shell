@@ -12,6 +12,8 @@
 #include <ctype.h>
 #include <malloc.h>
 #include <signal.h>
+#include <dirent.h>
+#include <errno.h>
 
 extern char **environ;
 #define BUFFSIZE 1024
@@ -78,6 +80,7 @@ void free_data(data_t *data);
 void cd_home(data_t *data);
 void cd_dir(data_t *data);
 void cd_prev(data_t *data);
+int check_dir(char *dir_name, data_t *data);
 
 ssize_t _getline(char **line, size_t *n, FILE *stream);
 void save_line(char **line, size_t *n, char *buf, size_t input);

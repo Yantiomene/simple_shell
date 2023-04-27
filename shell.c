@@ -22,14 +22,11 @@ int main(int ac __attribute__((unused)), char **av)
 		data.line = readline(&eof);
 		if (eof != -1) /* End of file*/
 		{
-			if (data.line)
-			{
-				data.args = split_line(data.line);
-				exec_cmd(&data);
-				data.count += 1;
-				if (data.args)
-					free(data.args);
-			}
+			data.args = split_line(data.line);
+			exec_cmd(&data);
+			data.count += 1;
+			if (data.args)
+				free(data.args);
 		}
 		else
 		{

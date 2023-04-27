@@ -38,6 +38,32 @@ void cd_home(data_t *data)
 }
 
 /**
+ * check_dir - checks if a dir exists
+ * @dir_name: dir name
+ * @data: pointer to data structure
+ *
+ * Return: 1 (exists) 0 (doesn't exist) -1(failed)
+ */
+int check_dir(char *dir_name, data_t *data)
+{
+	DIR *dir = opendir(dir_name);
+
+	if (dir)
+	{
+		closedir(dir);
+		return (1);
+	}
+	if (errno == ENOENT)
+	{
+		print_error(": can't cd to ", data);
+		write(STDERR_FILENO, dir_name, _strlen(dir_name));
+		write(STDERR_FILENO, "\n", 1);
+		return (0);
+	}
+	return (-1);
+}
+
+/**
  * cd_dir - changes dir to a directory
  * @data: pointer to data structure
  *
@@ -48,6 +74,11 @@ void cd_dir(data_t *data)
 	char *prog_name = get_prog_name(data);
 
 	dir = data->args[1];
+	if (check_dir(dir, data) == 0)
+	{
+		free(prog_name);
+		return;
+	}
 	pwd_val = getcwd(pwd, sizeof(pwd));
 	if (!pwd_val)
 	{
@@ -75,27 +106,23 @@ void cd_dir(data_t *data)
  */
 void cd_prev(data_t *data)
 {
-	char pwd[PATH_MAX], *pwd_val, *oldpwd_val;
-	char *prog_name = get_prog_name(data);
+	char pwd[PATH_MAX], *pwd_val, *oldpwd_val, *pwd_val_c, *oldpwd_val_c;
 
-	pwd_val = getcwd(pwd, sizeof(pwd));
-	if (!pwd_val)
-	{
-		perror(prog_name);
-		free(prog_name);
-		return;
-	}
+	getcwd(pwd, sizeof(pwd));
+	pwd_val_c = _strdup(pwd);
 	oldpwd_val = _getenv("OLDPWD", data);
-	if (!oldpwd_val)
-		oldpwd_val = pwd_val;
-	_setenv("OLDPWD", pwd_val, data);
-	if (chdir(oldpwd_val) == -1)
-		_setenv("PWD", pwd_val, data);
+	oldpwd_val_c = (!oldpwd_val) ? pwd_val_c : _strdup(oldpwd_val);
+	_setenv("OLDPWD", pwd_val_c, data);
+	if (chdir(oldpwd_val_c) == -1)
+		_setenv("PWD", pwd_val_c, data);
 	else
-		_setenv("PWD", oldpwd_val, data);
+		_setenv("PWD", oldpwd_val_c, data);
 	pwd_val = _getenv("PWD", data);
 	write(STDOUT_FILENO, pwd_val, _strlen(pwd_val));
 	write(STDOUT_FILENO, "\n", 1);
-	free(prog_name);
+	free(pwd_val_c);
+	if (oldpwd_val)
+		free(oldpwd_val_c);
+	chdir(pwd_val);
 	data->status = 0;
 }
