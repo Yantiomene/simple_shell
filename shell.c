@@ -12,7 +12,7 @@ int main(int ac __attribute__((unused)), char **av)
 {
 	char *prompt = "(YAsh)$ ";
 	data_t data;
-	int state = 1, eof;
+	int state = 1, eof, inter = isatty(STDIN_FILENO);
 
 	signal(SIGINT, get_sigint);
 	set_data(&data, av);
@@ -31,6 +31,14 @@ int main(int ac __attribute__((unused)), char **av)
 		else
 		{
 			state = 0;
+		}
+		if (inter)
+		{
+			if (data.line)
+			{
+				free(data.line);
+				data.line = NULL;
+			}
 		}
 	}
 	if (data.line)
