@@ -25,7 +25,8 @@ char *_strtok(char *str, char *sep)
 
 	while (*ind != '\0')
 	{
-		for (i = 0; sep[i]; i++)
+		i = 0;
+		while (sep[i])
 		{
 			if (*ind == sep[i])
 			{
@@ -33,22 +34,21 @@ char *_strtok(char *str, char *sep)
 				{
 					if (!*(ind + 1))
 						return (NULL);
-					ind++;
-					str++;
+					ind++, str++, i = 0;
+					continue;
 				}
 				else
 				{
 					*ind = '\0';
 					break;
 				}
-			}
+			} i++;
 		}
 		if (*ind == '\0')
 		{
 			ind++;
 			return (str);
-		}
-		ind++;
+		} ind++;
 	}
 	return (str);
 }

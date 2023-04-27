@@ -85,19 +85,14 @@ void exec_cmd(data_t *data)
 	}
 	else if (pid == 0)
 	{
-		if (execve(cmd_path, data->args, data->env) == -1)
-		{
-			perror(prog_name), free(cmd_path);
-			free(prog_name), data->status = 2;
-			return;
-		}
+		execve(cmd_path, data->args, data->env);
 	}
 	else
 	{
 		do {
 			waitpid(pid, &wstatus, WUNTRACED);
 		} while (!WIFEXITED(wstatus) && !WIFSIGNALED(wstatus));
-		data->status = wstatus;
 	}
+	data->status = wstatus / 256;
 	free(prog_name), free(cmd_path);
 }
