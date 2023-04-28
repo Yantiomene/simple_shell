@@ -46,7 +46,6 @@ void bin_env(data_t *data)
 		i++;
 	}
 	data->status = 0;
-	free(data->line);
 }
 
 /**
@@ -68,7 +67,6 @@ void bin_setenv(data_t *data)
 	val = data->args[2];
 	_setenv(var, val, data);
 	data->status = 0;
-	free(data->line);
 }
 
 /**
@@ -116,7 +114,7 @@ void bin_unsetenv(data_t *data)
 	}
 	new_env[i] = NULL;
 	free(data->env[pos]), free(data->env);
-	data->env = new_env, data->status = 0, free(data->line);
+	data->env = new_env, data->status = 0;
 }
 
 /**
@@ -149,5 +147,4 @@ void bin_cd(data_t *data)
 		return;
 	}
 	cd_dir(data);
-	free(data->line);
 }
