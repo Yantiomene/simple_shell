@@ -11,7 +11,7 @@ int var_cmp(char *var_name, char *env_var)
 {
 	int i, len;
 
-	for(len = 0; env_var[len] != '='; len++)
+	for (len = 0; env_var[len] != '='; len++)
 		;
 	if (_strlen(var_name) != len)
 		return (0);
