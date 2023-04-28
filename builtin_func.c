@@ -97,7 +97,7 @@ void bin_unsetenv(data_t *data)
 	{
 		print_error(": ", data), write(STDERR_FILENO, var, _strlen(var));
 		write(STDERR_FILENO, ": not an environnement variable\n", 32);
-		data->status = -1;
+		data->status = -1, free(data->line);
 		return;
 	}
 	new_env = malloc(sizeof(char *) * len);
