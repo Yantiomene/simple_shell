@@ -19,7 +19,7 @@ void bin_exit(data_t *data)
 			print_error(": Illegal number: ", data);
 			write(STDERR_FILENO, data->args[1], _strlen(data->args[1]));
 			write(STDERR_FILENO, "\n", 1);
-			data->status = 2;
+			data->status = 2, free(data->line);
 			return;
 		}
 		data->status = (e_status % 256);
@@ -61,7 +61,7 @@ void bin_setenv(data_t *data)
 	if (!data->args[1] || !data->args[2])
 	{
 		print_error(": Usage: setenv VARIABLE VALUE\n", data);
-		data->status = -1;
+		data->status = -1, free(data->line);
 		return;
 	}
 	var = data->args[1];
@@ -85,7 +85,7 @@ void bin_unsetenv(data_t *data)
 	if (!var)
 	{
 		print_error(": Usage: unsetenv VARIABLE\n", data);
-		data->status = -1;
+		data->status = -1, free(data->line);
 		return;
 	}
 	for (len = 0; data->env[len]; len++)
